@@ -1,0 +1,11 @@
+Package: GenomicSuperSignature
+Type: Package
+Title: Genomic Super Signature
+Version: 0.1.0
+Author: Sehyun Oh
+Maintainer: Sehyun Oh <shbrief@gmail.com>
+Description: Database of PCA analysis on public gene expression data is provided in this package. Major signals are annotated with biological/technical factors, which can be applied to new gene expression datasets.
+License: CC0
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 6.1.1
