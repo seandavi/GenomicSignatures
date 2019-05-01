@@ -1,12 +1,10 @@
 #' Misc Functions for GenomicSuperSignature package
 #'
 #' Remove missing / Inf values in an expression
-#' @export
 #'
 #' @param x a matrix with the expression values
-#'
 #' @return the updated input matrix where NA and Inf values are removed
-#'
+#' @export
 rmNaInf <- function(x) {
   if(!is.matrix(x)) stop("x must be a matrix (expression values)!")
   x <- x[apply(x, 1, function(row) {
@@ -23,11 +21,9 @@ rmNaInf <- function(x) {
 
 #' Filling in zero values for classification
 #'
-#' @export
-#'
 #' @param exprs an ExpressionSet object
 #' @param names gene names
-#'
+#' @export
 fillInZero <- function(exprs, names) {
   if (!all(rownames(exprs) %in% names)) stop("Gene names don't match!")
   exprs_new <- matrix(0, length(names), ncol(exprs))
@@ -38,13 +34,10 @@ fillInZero <- function(exprs, names) {
 
 #' Calculate silhouette width
 #'
-#' @export
-#'
 #' @param distance a matrix like object of distance
 #' @param lvls levels
-#'
 #' @return data frame with claculated silhouette width
-#'
+#' @export
 calcSilWidth <- function(distance, lvls) {
   lvl.factor <- factor(lvls)
   distance.mat <- as.matrix(distance)
