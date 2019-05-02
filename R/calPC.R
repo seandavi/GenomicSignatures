@@ -1,7 +1,7 @@
-#' Calculate Principle Components
+#' PCA on gene expression profile
 #'
-#' @param x gene expression count matrix whit genes and samples of the study
-#' @return results of principle components analysis in an object of class \code{\link[stats]{prcomp}}
+#' @param x Numeric data matrix or numeric data frame: each row corresponds to genes, and each column corresponds to samples of the study.
+#' @return results of principle components analysis (PCA) in an object of class \code{\link[stats]{prcomp}}
 #' @export
 calPC = function(x) {
     dat.pca = prcomp(t(x))
