@@ -2,16 +2,16 @@
 % Please edit documentation in R/calPC.R
 \name{calPC}
 \alias{calPC}
-\title{Calculate Principle Components}
+\title{PCA on gene expression profile}
 \usage{
 calPC(x)
 }
 \arguments{
-\item{x}{expression count matrix where rows represent genes and columns represent each sample of the study}
+\item{x}{Numeric data matrix or numeric data frame: each row corresponds to genes, and each column corresponds to samples of the study.}
 }
 \value{
-results of principle components analysis in an object of class \code{\link[stats]{prcomp}}
+results of principle components analysis (PCA) in an object of class \code{\link[stats]{prcomp}}
 }
 \description{
-Calculate Principle Components
+PCA on gene expression profile
 }
