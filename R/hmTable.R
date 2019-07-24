@@ -1,12 +1,13 @@
-#' Score table with color
+#' Jaccard similarty score table with color
 #'
 #' @import circlize
 #' @import grid
 #'
 #' @param dat a matrix containing the correlation coefficiency between the loadings
-#' of new dataset(s) and pre-calculated average loadings of training datasets.
+#' of new dataset(s) and pre-calculated average loadings of training datasets
 #' @param title a character string containing the title of the table
-#' @param color a numeric vector of length 3.
+#' @param color a numeric vector of length 3. Number represents the values assigned
+#' to "grey", "white", and "red", respectively.
 #'
 #' @return a heatmap version of the input matrix
 #'

@@ -13,7 +13,7 @@ training datasets. Each column represents genes used for PCA analysis.}
 \item{k}{The number of clusters used for k-means clustering}
 }
 \value{
-A data frame of avaerage loadings. Each column represents cluster
+A data frame of average loadings. Each column represents cluster
 and rows represent genes used for PCA.
 }
 \description{

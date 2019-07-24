@@ -2,21 +2,22 @@
 % Please edit documentation in R/hmTable.R
 \name{hmTable}
 \alias{hmTable}
-\title{Score table with color}
+\title{Jaccard similarty score table with color}
 \usage{
 hmTable(dat, title, color)
 }
 \arguments{
 \item{dat}{a matrix containing the correlation coefficiency between the loadings
-of new dataset(s) and pre-calculated average loadings of training datasets.}
+of new dataset(s) and pre-calculated average loadings of training datasets}
 
 \item{title}{a character string containing the title of the table}
 
-\item{color}{a numeric vector of length 3.}
+\item{color}{a numeric vector of length 3. Number represents the values assigned
+to "grey", "white", and "red", respectively.}
 }
 \value{
 a heatmap version of the input matrix
 }
 \description{
-Score table with color
+Jaccard similarty score table with color
 }

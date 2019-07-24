@@ -6,7 +6,7 @@
 #' @param df A data frame. Each row represents principle components from different
 #' training datasets. Each column represents genes used for PCA analysis.
 #' @param k The number of clusters used for k-means clustering
-#' @return A data frame of avaerage loadings. Each column represents cluster
+#' @return A data frame of average loadings. Each column represents cluster
 #' and rows represent genes used for PCA.
 #' @export
 avgLoading = function(df, k) {
