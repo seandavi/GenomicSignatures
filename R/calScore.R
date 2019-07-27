@@ -1,26 +1,25 @@
 #' Calculate the score for a new dataset
 #'
-#' @param dataset a list of SummarizedExperiment objects. Rownames are in 'symbol' format.
-#' @param avg.loadings output from `avgLoading` function - a data frame of avaerage
+#' @param dataset A list of SummarizedExperiment (or ExpressionSet) objects.
+#' Rownames are in 'symbol' format.
+#' @param avg.loadings Output from `avgLoading` function - a data frame of avaerage
 #' loadings. Each column represents cluster and rows represent genes used for PCA.
 #'
-#' @return a matrix containing the correlation coefficiency between the loadings
-#' of new dataset(s) and pre-calculated average loadings of training datasets. Each
-#' row represents a new dataset for test, and each column represents clusters from
-#' training datasets
+#' @return A list containing the score matrices for input datasets. Scores are
+#' assigned to each sample (row) on each cluster (column).
 #'
 #' @export
 calScore = function(dataset, avg.loadings) {
-  t(sapply(dataset, function(dat) {
-    count = assay(dat)
-    count = count[rownames(count) != "MEOX2",]
-    count = count[apply(count, 1, function (x) {!any(is.na(x) | (x==Inf) | (x==-Inf))}),]
+    lapply(dataset, function(dat) {
+        if (class(dat) == "ExpressionSet") {dat = as(dat, "SummarizedExperiment")}
+        count = assay(dat)
+        count = count[apply(count, 1, function(x) {!any(is.na(x) | (x==Inf) | (x==-Inf))}),]
+        count = apply(count, 1, function(x) {x - mean(x)}) %>% t
+        gene_common = intersect(rownames(avg.loadings), rownames(count))
 
-    gene_common = intersect(rownames(avg.loadings), rownames(count))
-    prcomRes = prcomp(t(count[gene_common,]))
-    loadings = prcomRes$rotation[, 1:8]
-    loading_cor = abs(cor(avg.loadings[gene_common, ], loadings[gene_common,],
-                          use = "pairwise.complete.obs"))
-    return(apply(loading_cor, 1, max))
-  }))
+        score = t(count[gene_common,]) %*% apply(avg.loadings[gene_common,], 2,
+                                                 function(x) x / sqrt(sum(x^2, na.rm = TRUE)))
+        colnames(score) = colnames(avg.loadings)
+        return(score)
+    })
 }

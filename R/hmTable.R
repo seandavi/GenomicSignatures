@@ -1,5 +1,6 @@
 #' Jaccard similarty score table with color
 #'
+#' @import ComplexHeatmap
 #' @import circlize
 #' @import grid
 #'

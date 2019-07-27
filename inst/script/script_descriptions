@@ -1,8 +1,9 @@
-## File description 
+## File description
 
-* 20PCs_8OVCtraining.R : 8 OVC datasets from curatedOvarianData package, which 
-have more than 100 samples and been processed by Affymetrix platform, were 
+* 20PCs_8OVCtraining.R
+- used to build `/inst/extdata/20PCs_8OVCtraining.csv`
+- 8 OVC datasets from curatedOvarianData package, which have more than 100
+samples and been processed by Affymetrix platform.
 
-* 20PCs_10OVCtraining.R : 
-
-* pca_update.R : R script to calculate `avg_loadings` in Ma et al. Genome Biology (2018).
+* 20PCs_10OVCtraining.R
+- used to build `/inst/extdata/20PCs_10OVCtraining.csv`
