@@ -3,4 +3,7 @@ inst/doc
 .Rhistory
 .RData
 .Ruserdata
+
 inst/extdata/expr.all.mapped.RData
+*_eset.rda
+*_rseq.rda
