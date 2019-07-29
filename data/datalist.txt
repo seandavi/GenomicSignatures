@@ -26,7 +26,7 @@ GSE26682.GPL96_eset
 NHS.HPFS_eset
 
 ## testSets_tcga.rda ##
-# 4 RNAseq datasets from GSEABenchmarkeR
+# 4 RNAseq datasets from curatedTCGAData
 TCGA_BRCA_rseq
 TCGA_COAD_rseq
 TCGA_LUAD_rseq
@@ -35,5 +35,5 @@ TCGA_READ_rseq
 # 1 OVC RNAseq dataset from curatedOvarianData
 TCGA.RNASeqV2_eset
 
-## testSets_5tcga.rda ##
+## TCGA_trainingSets.rda ##
 # 5 TCGA RNAseq raw counts were log2-transformed and idMap to "SYMBOL"

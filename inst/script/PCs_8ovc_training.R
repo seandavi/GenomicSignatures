@@ -6,7 +6,10 @@ for (set in setNames) {
     load(paste0("/data/GenomicSuperSignature/data/", set, ".rda"))
 }
 
-pc_df = GenomicSuperSignature::pcTable(setNames)
+pc_df = pcTable(setNames)
+
+# Data frame of 13104 genes x 160 PCs
+write.csv(pc_df, "/data/GenomicSuperSignature/inst/extdata/PCs_8ovc_training.csv")
 
 # # common genes of these datasets
 # common_gene = GenomicSuperSignature::commonGene(setNames)
@@ -32,6 +35,3 @@ pc_df = GenomicSuperSignature::pcTable(setNames)
 #     colnames(pc) = paste0("ds", i, ".", colnames(pc))
 #     pc_df = cbind(pc_df, pc)
 # }
-#
-# # Data frame of 13104 genes x 160 PCs
-# # write.csv(pc_df, "/inst/extdata/20PCs_8OVCtraining.csv")

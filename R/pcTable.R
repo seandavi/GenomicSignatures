@@ -1,5 +1,7 @@
 #' Create a table of PCs of datasets
 #'
+#' Any gene with NA or -Inf/Inf values is removed, followed by centering. Each
+#' datasets are subset with their commone genes.
 #' Principle component analysis is performed on each dataset assuming each samples as
 #'
 #' @import magrittr
@@ -55,7 +57,7 @@ pcTable = function (setNames, pc.num = 20, commonGene = NULL) {
   for (i in seq_along(training_dataset)) {
     count = exprs(training_dataset[[i]])
     pc = prcomp(t(count))$rotation[,1:pc.num]
-    colnames(pc) = paste0("ds", i, ".", colnames(pc))
+    colnames(pc) = paste0(names(training_dataset)[i], ".", colnames(pc))
     pc_df = cbind(pc_df, pc)
   }
 

@@ -10,8 +10,9 @@
 #'  from different datasets used for clustering.
 #'
 #' @export
-CRC_Jaccard_Coef = function(res) {
-    x = data.frame(matrix(nrow = length(res$cluster), ncol = 0))
+CRC_Jaccard_Coef = function(res, ds, pc) {
+    num_rows = ds * pc
+    x = data.frame(matrix(nrow = num_rows, ncol = 0))
     rownames(x) = names(res$cluster)
 
     ref_cl = c("ds1.PC1"=1, "ds2.PC2"=1, "ds3.PC1"=1, "ds4.PC1"=1, "ds5.PC2"=1, "ds6.PC1"=1, "ds6.PC2"=1, "ds7.PC1"=1, "ds8.PC7"=1,

@@ -4,7 +4,7 @@
 \alias{CRC_Jaccard_Coef}
 \title{CRC Jaccard's Coefficient Table}
 \usage{
-CRC_Jaccard_Coef(res)
+CRC_Jaccard_Coef(res, ds, pc)
 }
 \arguments{
 \item{res}{Output from `kmeans()` clustering}

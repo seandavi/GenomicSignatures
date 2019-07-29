@@ -16,5 +16,7 @@ a data frame with the common genes among datasets (row) and the number
 of PCs defined by pc.num (default = 20) from each dataset (column)
 }
 \description{
+Any gene with NA or -Inf/Inf values is removed, followed by centering. Each
+datasets are subset with their commone genes.
 Principle component analysis is performed on each dataset assuming each samples as
 }

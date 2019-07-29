@@ -21,7 +21,7 @@ pc_df = data.frame(matrix(NA, nrow = row_num, ncol = 0))
 
 for (i in seq_along(expr.all.mapped)) {
     pc = prcomp(t(expr.all.mapped[[i]]))$rotation[,1:pc.num]
-    colnames(pc) = paste0("ds", i, ".", colnames(pc))
+    colnames(pc) = paste0(names(expr.all.mapped)[i], ".", colnames(pc))
     pc_df = cbind(pc_df, pc)
 }
 
