@@ -14,10 +14,8 @@ Rownames are in 'symbol' format.}
 loadings. Each column represents cluster and rows represent genes used for PCA.}
 }
 \value{
-a matrix containing the correlation coefficiency between the loadings
-of new dataset(s) and pre-calculated average loadings of training datasets. Each
-row represents a new dataset for test, and each column represents clusters from
-training datasets
+A list containing the score matrices for input datasets. Scores are
+assigned to each sample (row) on each cluster (column).
 }
 \description{
 Calculate the score for a new dataset

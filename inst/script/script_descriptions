@@ -1,9 +1,9 @@
 ## File description
 
-* 20PCs_8OVCtraining.R
+* PCs_8ovc_training.R
 - used to build `/inst/extdata/20PCs_8OVCtraining.csv`
 - 8 OVC datasets from curatedOvarianData package, which have more than 100
 samples and been processed by Affymetrix platform.
 
-* 20PCs_10OVCtraining.R
+* PCs_10ovc_training.R
 - used to build `/inst/extdata/20PCs_10OVCtraining.csv`

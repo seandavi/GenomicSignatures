@@ -1,6 +1,6 @@
 #' Common genes from datasets
 #'
-#' @import tidyr
+#' @import magrittr
 #'
 #' @param setNames a character vector. Name of the datasets.
 #' @return a character vector with the common genes of the datasets.
