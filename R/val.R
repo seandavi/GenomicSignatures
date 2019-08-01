@@ -2,6 +2,8 @@
 #'
 #' Pearson correlation based validation of new datasets against average loadings.
 #'
+#' @importFrom SummarizedExperiment assay
+#'
 #' @param dataset A list of SummarizedExperiment (or ExpressionSet) objects.
 #' Rownames are in 'symbol' format.
 #' @param avg.loadings output from `avgLoading` function - a data frame of avaerage

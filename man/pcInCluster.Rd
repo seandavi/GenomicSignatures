@@ -4,10 +4,14 @@
 \alias{pcInCluster}
 \title{Create Jaccard's Coefficient Table}
 \usage{
-pcInCluster(res)
+pcInCluster(x, k)
 }
 \arguments{
-\item{res}{output from `kmeans()` clustering}
+\item{x}{a data frame with the common genes (row) and the principle components
+(PCs) from different datasets (col). The number of column is `the number of PCs
+x the number of datasets`}
+
+\item{k}{the number of clusters (k) for `Kmeans` clustering}
 }
 \value{
 A data frame of Jaccards' Coefficient. Each column represents cluster

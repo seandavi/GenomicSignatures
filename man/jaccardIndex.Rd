@@ -4,12 +4,12 @@
 \alias{jaccardIndex}
 \title{Create Jaccard Similarity Table}
 \usage{
-jaccardIndex(x, y)
+jaccardIndex(ref, test)
 }
 \arguments{
-\item{x}{the Jaccard coefficient table of reference clustering}
+\item{ref}{the Jaccard coefficient table of reference clustering}
 
-\item{y}{the Jaccard coefficient table of test clustering. nrow(y) should be
+\item{test}{the Jaccard coefficient table of test clustering. nrow(y) should be
 same as nrow(x)}
 }
 \value{

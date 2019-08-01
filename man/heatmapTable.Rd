@@ -4,16 +4,21 @@
 \alias{heatmapTable}
 \title{Color the matrix in a heatmap-stype}
 \usage{
-heatmapTable(dat, title, color)
+heatmapTable(dat, column_title, row_title, breaks, colors)
 }
 \arguments{
 \item{dat}{a matrix subjected to add background colors in each slot correlated
 to its value - similar to heatmap}
 
-\item{title}{a character string containing the title of the table}
+\item{column_title}{a character string containing the title of the column}
 
-\item{color}{a numeric vector of length 3. Number represents the values assigned
-to "grey", "white", and "red", respectively. Default is `c(0, 0.4, 0.8)`.}
+\item{row_title}{a character string containing the title of the row}
+
+\item{breaks}{a numeric vector of length 3. Number represents the values assigned
+to three colors. Default is `c(0, 0.5, 1)`.}
+
+\item{colors}{a character vector of length 3. Each represents the color assigned
+to three breaks. Default is `c("grey", "white", "red")`.}
 }
 \value{
 a heatmap version of the input matrix

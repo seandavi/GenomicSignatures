@@ -12,6 +12,8 @@ common_gene = lapply(expr.all.mapped, function(x) {rownames(x)}) %>%
 load("/data/GenomicSuperSignature/data/trainingSets_10ovc.rda")
 setNames = trainingSets_10ovc
 
+library(Biobase)
+
 for (set in setNames) {
     load(paste0("/data/GenomicSuperSignature/data/", set, ".rda"))
     dat = get(set)
@@ -53,4 +55,4 @@ for (i in seq_along(CrcOv_trainingDatasets)) {
     pc_df = cbind(pc_df, pc)
 }
 
-write.csv(pc_df, "/data/GenomicSuperSignature/inst/extdata/PCs_8crc10ov_training.csv")
+write.csv(pc_df, "/data/GenomicSuperSignature/inst/extdata/PCs_8crc10ovc_training.csv")
