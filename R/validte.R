@@ -15,7 +15,7 @@
 #' training datasets
 #'
 #' @export
-val = function(dataset, avg.loadings) {
+validate = function(dataset, avg.loadings) {
   t(sapply(dataset, function(dat) {
     if (class(dat) == "ExpressionSet") {dat = as(dat, "SummarizedExperiment")}
     count = assay(dat)
