@@ -15,7 +15,10 @@
 #' @export
 jaccardIndex = function(ref, test) {
 
-    test = test[rownames(test) %in% rownames(ref),]
+    # test = test[rownames(test) %in% rownames(ref),]
+    common_pc = intersect(rownames(test), rownames(ref))
+    ref = ref[common_pc,]
+    test = test[common_pc,]
 
     z = cbind(ref, test)
     z = z[which(rowSums(z) != 0),]

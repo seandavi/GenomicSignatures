@@ -6,7 +6,7 @@
 #'
 #' @param dat a matrix subjected to add background colors in each slot correlated
 #' to its value - similar to heatmap
-#' @param row_title a character string containing the title of the row
+#' @param row_title a character string containing the title of the row.
 #' @param column_title a character string containing the title of the column
 #' @param breaks a numeric vector of length 3. Number represents the values assigned
 #' to three colors. Default is `c(0, 0.5, 1)`.
@@ -16,7 +16,7 @@
 #' @return a heatmap version of the input matrix
 #'
 #' @export
-heatmapTable = function(dat, column_title, row_title, breaks, colors) {
+heatmapTable = function(dat, row_title, column_title, breaks, colors) {
 
   if (missing(breaks)) {
     breaks = c(0, 0.5, 1)
