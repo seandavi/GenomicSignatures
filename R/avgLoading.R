@@ -28,7 +28,7 @@ avgLoading = function(df, k) {
     names(cl_ls) = paste0(names(cl_ls), " (", res$size, ")")
     avg.loadings = data.frame(lapply(cl_ls, function(cl) {apply(cl, 1, mean, na.rm=FALSE)}),
                               row.names = rownames(cl_ls[[1]]), check.names = FALSE)
-    rownames(avg.loadings) = rownames(df)
+    rownames(avg.loadings) = colnames(df)
     return(avg.loadings)
 }
 

@@ -15,8 +15,15 @@
 #' @export
 validate = function(dataset, avg.loadings) {
   t(sapply(dataset, function(dat) {
-    if (class(dat) == "ExpressionSet") {dat = as(dat, "SummarizedExperiment")}
-    count = assay(dat)
+
+      if (class(dat) == "ExpressionSet") {
+          count = exprs(dat)
+      } else if (class(dat) == "SummarizedExperiment") {
+          count = assay(dat)
+      } else if (class(dat) == "matrix") {
+          count = dat
+      }
+
     count = count[apply(count, 1, function (x) {!any(is.na(x) | (x==Inf) | (x==-Inf))}),]
 
     gene_common = intersect(rownames(avg.loadings), rownames(count))
