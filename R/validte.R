@@ -1,7 +1,5 @@
 #' Validatin of a new dataset
 #'
-#' Pearson correlation based validation of new datasets against average loadings.
-#'
 #' @importFrom SummarizedExperiment assay
 #'
 #' @param dataset A list of SummarizedExperiment (or ExpressionSet) objects.
@@ -9,10 +7,10 @@
 #' @param avg.loadings output from `avgLoading` function - a data frame of avaerage
 #' loadings. Each column represents cluster and rows represent genes used for PCA.
 #'
-#' @return a matrix containing the correlation coefficiency between the loadings
-#' of new dataset(s) and pre-calculated average loadings of training datasets. Each
-#' row represents a new dataset for test, and each column represents clusters from
-#' training datasets
+#' @return A matrix containing the maximum pearson correlation coefficiency between
+#' the top 8 PCs of the dataset(s) and pre-calculated average loadings of training
+#' datasets. Each row represents a new dataset for test, and each column represents
+#' clusters from training datasets.
 #'
 #' @export
 validate = function(dataset, avg.loadings) {

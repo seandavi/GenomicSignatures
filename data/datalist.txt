@@ -27,12 +27,14 @@ NHS.HPFS_eset
 
 ## testSets_tcga.rda ##
 # 4 RNAseq datasets from curatedTCGAData
+# log2 transformation is required
 TCGA_BRCA_rseq
 TCGA_COAD_rseq
 TCGA_LUAD_rseq
 TCGA_READ_rseq
 
 # 1 OVC RNAseq dataset from curatedOvarianData
+# log2 transformation isn't requried (already done)
 TCGA.RNASeqV2_eset
 
 ## TCGA_trainingSets.rda ##

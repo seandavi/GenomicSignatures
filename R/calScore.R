@@ -1,5 +1,7 @@
 #' Calculate the score for a new dataset
 #'
+#' Rownames of dataset and avg.loadings should be gene symbols.
+#'
 #' @param dataset A list of SummarizedExperiment (or ExpressionSet) objects.
 #' Rownames are in 'symbol' format.
 #' @param avg.loadings Output from `avgLoading` function - a data frame of avaerage
@@ -10,16 +12,35 @@
 #'
 #' @export
 calScore = function(dataset, avg.loadings) {
-    lapply(dataset, function(dat) {
-        if (class(dat) == "ExpressionSet") {dat = as(dat, "SummarizedExperiment")}
-        count = assay(dat)
+    if (!is.list(dataset)) {
+        count = dataset
         count = count[apply(count, 1, function(x) {!any(is.na(x) | (x==Inf) | (x==-Inf))}),]
         count = apply(count, 1, function(x) {x - mean(x)}) %>% t
         gene_common = intersect(rownames(avg.loadings), rownames(count))
 
         score = t(count[gene_common,]) %*% apply(avg.loadings[gene_common,], 2,
                                                  function(x) x / sqrt(sum(x^2, na.rm = TRUE)))
+        # CRC paper version
+        # score = t(count[gene_common,]) %*% as.matrix(avg.loadings[gene_common,])
+        # score = (t(score) / apply(score, 2, sd)) %>% t
+
         colnames(score) = colnames(avg.loadings)
         return(score)
-    })
+    } else {
+        lapply(dataset, function(dat) {
+            if (class(dat) == "ExpressionSet") {dat = as(dat, "SummarizedExperiment")}
+            count = count[apply(count, 1, function(x) {!any(is.na(x) | (x==Inf) | (x==-Inf))}),]
+            count = apply(count, 1, function(x) {x - mean(x)}) %>% t
+            gene_common = intersect(rownames(avg.loadings), rownames(count))
+
+            score = t(count[gene_common,]) %*% apply(avg.loadings[gene_common,], 2,
+                                                     function(x) x / sqrt(sum(x^2, na.rm = TRUE)))
+            # CRC paper version
+            # score = t(count[gene_common,]) %*% as.matrix(avg.loadings[gene_common,])
+            # score = (t(score) / apply(score, 2, sd)) %>% t
+
+            colnames(score) = colnames(avg.loadings)
+            return(score)
+        })
+    }
 }
