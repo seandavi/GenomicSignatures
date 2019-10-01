@@ -1,13 +1,15 @@
 #' CRC Jaccard's Coefficient Table
 #'
-#' Create Jaccard's Coefficient table using the list of loadings used to create
-#' PCSS1-4 in the previous work by Ma *et al.*(2018)
-#' (Genome Biol. 2018 Sep 25;19(1):142. doi: 10.1186/s13059-018-1511-4)
+#' Create Jaccard's Coefficient table represents the binary principle components
+#' membership of 8 CRC datasets used in the previous work by Ma *et al.*(2018)
+#' (Genome Biol. 2018 Sep 25;19(1):142. doi: 10.1186/s13059-018-1511-4).
 #'
 #' @param res Output from `kmeans()` clustering
-#' @return A data frame of Jaccards' Coefficient with CRC data. Each column represents
-#'  cluster (crc_cl1-crc_cl4, which represent PCSS1-PCSS4) and the rows represent PCs
-#'  from different datasets used for clustering.
+#' @param ds the number of datasets used for clutering
+#' @param pc the number of PCs kept from each dataset
+#' @return A data frame of Jaccards' coefficients between your dataset and CRC
+#' data. Each column represents cluster (crc_cl1 ~ crc_cl4, which represent PCSS1
+#' ~ PCSS4) and the rows represent PCs from different datasets used in clustering.
 #'
 #' @export
 CRC_Jaccard_Coef = function(res, ds, pc) {

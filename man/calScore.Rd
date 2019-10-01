@@ -18,5 +18,5 @@ A list containing the score matrices for input datasets. Scores are
 assigned to each sample (row) on each cluster (column).
 }
 \description{
-Calculate the score for a new dataset
+Rownames of dataset and avg.loadings should be gene symbols.
 }

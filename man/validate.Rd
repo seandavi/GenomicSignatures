@@ -4,7 +4,7 @@
 \alias{validate}
 \title{Validatin of a new dataset}
 \usage{
-validate(dataset, avg.loadings)
+validate(dataset, avg.loadings, level = c("dataset"))
 }
 \arguments{
 \item{dataset}{A list of SummarizedExperiment (or ExpressionSet) objects.
@@ -14,11 +14,11 @@ Rownames are in 'symbol' format.}
 loadings. Each column represents cluster and rows represent genes used for PCA.}
 }
 \value{
-a matrix containing the correlation coefficiency between the loadings
-of new dataset(s) and pre-calculated average loadings of training datasets. Each
-row represents a new dataset for test, and each column represents clusters from
-training datasets
+A matrix containing the maximum pearson correlation coefficiency between
+the top 8 PCs of the dataset(s) and pre-calculated average loadings of training
+datasets. Each row represents a new dataset for test, and each column represents
+clusters from training datasets.
 }
 \description{
-Pearson correlation based validation of new datasets against average loadings.
+Validatin of a new dataset
 }

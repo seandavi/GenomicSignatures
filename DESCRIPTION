@@ -4,12 +4,21 @@ Title: Genomic Super Signature
 Version: 0.1.1
 Author: Sehyun Oh
 Maintainer: Sehyun Oh <shbrief@gmail.com>
+Depends: 
+    R (>= 3.5.0)
+Imports:
+    ComplexHeatmap,
+    circlize,
+    grid,
+    jaccard,
+    magrittr,
+    SummarizedExperiment
+Suggests: 
+    knitr,
+    rmarkdown
 Description: Database of PCA analysis on public gene expression data is provided in this package. Major signals are annotated with biological/technical factors, which can be applied to new gene expression datasets.
 License: CC0
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.1.1
-Suggests: 
-    knitr,
-    rmarkdown
 VignetteBuilder: knitr

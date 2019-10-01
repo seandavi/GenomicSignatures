@@ -7,10 +7,12 @@
 #' @import magrittr
 #'
 #' @param setNames a character vector of name of the datasets.
-#' @param pc.num the number of top PCs to keep for each dataset after PCA
+#' @param pc.num the number of top PCs to keep for each dataset after PCA. Default is 20.
+#' @param comonGene a character vector of the common genes. Default is 'NULL',
+#' in which case, the common genes of the provided datasets will be used.
 #'
-#' @return a data frame with the common genes among datasets (row) and the number
-#' of PCs defined by pc.num (default = 20) from each dataset (column)
+#' @return A data frame of principle components (PCs). Rows are common genes of
+#' datasets and columns represent PCs (defined by \code{pc.num}) from each dataset.
 #'
 #' @export
 pcTable = function (setNames, pc.num = 20, commonGene = NULL) {

@@ -10,7 +10,7 @@ heatmapTable(dat, row_title, column_title, breaks, colors)
 \item{dat}{a matrix subjected to add background colors in each slot correlated
 to its value - similar to heatmap}
 
-\item{row_title}{a character string containing the title of the row}
+\item{row_title}{a character string containing the title of the row.}
 
 \item{column_title}{a character string containing the title of the column}
 

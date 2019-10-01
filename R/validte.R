@@ -4,17 +4,22 @@
 #'
 #' @param dataset A list of SummarizedExperiment (or ExpressionSet) objects.
 #' Rownames are in 'symbol' format.
-#' @param avg.loadings output from `avgLoading` function - a data frame of avaerage
+#' @param avg.loadings output from \code{avgLoading} function - a data frame of avaerage
 #' loadings. Each column represents cluster and rows represent genes used for PCA.
+#' @param level Defibe how to ouput validation in two different forms, \code{c("max", "all")}.
+#' Default is "max", which outputs the matrix containing only the maximum coefficient.
+#' To get the coefficient of all 8 PCs, set this argument as "all".
 #'
-#' @return A matrix containing the maximum pearson correlation coefficiency between
+#' @return A matrix containing the maximum pearson correlation coefficient between
 #' the top 8 PCs of the dataset(s) and pre-calculated average loadings of training
 #' datasets. Each row represents a new dataset for test, and each column represents
-#' clusters from training datasets.
+#' clusters from training datasets. If \code{level = "all"}, a list containing the matrices
+#' of the pearson correlation coefficient between all top 8 PCs of the dataset(s) and
+#' avg.loadings.
 #'
 #' @export
-validate = function(dataset, avg.loadings) {
-  t(sapply(dataset, function(dat) {
+validate = function(dataset, avg.loadings, level = "max") {
+  x = lapply(dataset, function(dat) {
 
       if (class(dat) == "ExpressionSet") {
           count = exprs(dat)
@@ -32,6 +37,17 @@ validate = function(dataset, avg.loadings) {
     loading_cor = abs(cor(avg.loadings[gene_common,], loadings[gene_common,],
                           use = "pairwise.complete.obs",
                           method = "pearson"))
-    return(apply(loading_cor, 1, max))
-  }))
+    return(loading_cor)
+  })
+
+  if (level == "max") {
+    z = sapply(x, function(y) {apply(y, 1, max)})
+    return(t(z))
+  } else if (level == "all") {
+    return(t(x))
+  }
 }
+
+
+
+

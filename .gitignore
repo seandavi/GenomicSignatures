@@ -4,8 +4,8 @@ inst/doc
 .RData
 .Ruserdata
 .html
-
 data/TCGA_validationDatasets.rda
 inst/extdata/expr.all.mapped.RData
 *_eset.rda
 *_rseq.rda
+.httr-oauth
