@@ -9,11 +9,14 @@ pcTable(setNames, pc.num = 20, commonGene = NULL)
 \arguments{
 \item{setNames}{a character vector of name of the datasets.}
 
-\item{pc.num}{the number of top PCs to keep for each dataset after PCA}
+\item{pc.num}{the number of top PCs to keep for each dataset after PCA. Default is 20.}
+
+\item{comonGene}{a character vector of the common genes. Default is 'NULL',
+in which case, the common genes of the provided datasets will be used.}
 }
 \value{
-a data frame with the common genes among datasets (row) and the number
-of PCs defined by pc.num (default = 20) from each dataset (column)
+A data frame of principle components (PCs). Rows are common genes of
+datasets and columns represent PCs (defined by \code{pc.num}) from each dataset.
 }
 \description{
 Any gene with NA or -Inf/Inf values is removed, followed by centering. Each

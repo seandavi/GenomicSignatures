@@ -2,3 +2,7 @@
 ^\.Rproj\.user$
 ^\.httr-oauth$
 ^data-raw$
+
+^data/TCGA_validationDatasets.rda
+^data/expr.all.mapped.rda
+^data/TCGA_5cancers_rseq.rda
