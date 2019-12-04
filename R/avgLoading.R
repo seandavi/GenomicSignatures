@@ -22,10 +22,19 @@ avgLoading = function(df, k) {
                df[res$cluster == i,] %>% t)
     }
 
+    # the number of unique datasets in each cluster
+    unique_sets = c()
+    for (i in 1:nrow(x)) {
+        ind = which(res$cluster == i)
+        dataSetName = gsub("_LV\\d+$", "", names(res$cluster)[ind])
+        uniqueDataSetName = length(unique(dataSetName))
+        unique_sets = c(unique_sets, uniqueDataSetName)
+    }
+
     # Calculate the average of gene expressions in each cluster
     cl_n = formatC(1:nrow(x), width = 2, format = "d", flag = "0")
     cl_ls = mget(paste0("Cl", nrow(x), "_", cl_n))
-    names(cl_ls) = paste0(names(cl_ls), " (", res$size, ")")
+    names(cl_ls) = paste0(names(cl_ls), " (", res$size, "/", unique_sets, ")")
     avg.loadings = data.frame(lapply(cl_ls, function(cl) {apply(cl, 1, mean, na.rm=FALSE)}),
                               row.names = rownames(cl_ls[[1]]), check.names = FALSE)
     rownames(avg.loadings) = colnames(df)
