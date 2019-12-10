@@ -15,9 +15,12 @@
 #'
 #' @export
 sampleScoreHeatmap = function(dat, dataName, avgLoading,
-                              cluster_rows = TRUE, cluster_columns = TRUE,
+                              cluster_rows = TRUE,
+                              cluster_columns = TRUE,
                               show_row_names = TRUE,
-                              show_column_names = TRUE, ...) {
+                              show_column_names = TRUE,
+                              row_names_gp = 0.7,
+                              column_names_gp = 5, ...) {
     ComplexHeatmap::Heatmap(dat,
                             cluster_rows = cluster_rows,
                             cluster_columns = cluster_columns,
@@ -25,8 +28,8 @@ sampleScoreHeatmap = function(dat, dataName, avgLoading,
                             row_title_gp = gpar(fontsize = 11, fontface = "bold"),
                             column_title = avgLoading,
                             column_title_gp = gpar(fontsize = 11, fontface = "bold"),
-                            row_names_gp = gpar(fontsize = 0.7),
-                            column_names_gp = gpar(fontsize = 5),
+                            row_names_gp = gpar(fontsize = row_names_gp),
+                            column_names_gp = gpar(fontsize = column_names_gp),
                             show_row_names = show_row_names,
                             show_column_names = show_column_names,
                             heatmap_width = unit(10, "cm"),
