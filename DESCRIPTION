@@ -16,7 +16,9 @@ Imports:
 Suggests: 
     knitr,
     rmarkdown
-Description: Database of PCA analysis on public gene expression data is provided in this package. Major signals are annotated with biological/technical factors, which can be applied to new gene expression datasets.
+Description: Database of low-dimensional representation of the gene expression 
+annotated with known gene sets. Provide functions to compare the expression profile
+of new samples/datasets to database.
 License: CC0
 Encoding: UTF-8
 LazyData: true
