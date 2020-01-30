@@ -11,6 +11,9 @@
 \usage{
 trainingSets_8crc
 }
+\value{
+
+}
 \description{
 Names of eight CRC training datasets
 }

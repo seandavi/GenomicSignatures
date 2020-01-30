@@ -11,6 +11,9 @@
 \usage{
 PCs_10ovc_training
 }
+\value{
+
+}
 \description{
 Colon cancer (CRC) datasets from curatedCRCData for training
 }

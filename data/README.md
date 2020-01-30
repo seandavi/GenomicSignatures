@@ -51,3 +51,6 @@ TCGA.RNASeqV2_eset
 
 # TCGA_trainingSets.rda
 5 TCGA RNAseq raw counts were log2-transformed and idMap to "SYMBOL"
+
+# TCGA.RNASeqV2_eset.RData
+195 TCGA colon cancer samples

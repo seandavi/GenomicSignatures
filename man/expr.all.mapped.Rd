@@ -11,6 +11,9 @@
 \usage{
 expr.all.mapped
 }
+\value{
+
+}
 \description{
 List of length 8, where expressions are centered and scaled on a per-gene level
 first, per usual PCA standard. "MEOX2" gene is removed.

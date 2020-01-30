@@ -2,6 +2,7 @@
 ^\.Rproj\.user$
 ^\.httr-oauth$
 ^data-raw$
+^data$
 
 ^data/TCGA_validationDatasets.rda
 ^data/expr.all.mapped.rda

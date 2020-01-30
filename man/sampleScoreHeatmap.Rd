@@ -4,8 +4,18 @@
 \alias{sampleScoreHeatmap}
 \title{Plot heatmap of the sample scores}
 \usage{
-sampleScoreHeatmap(dat, dataName, avgLoading, cluster_rows = TRUE,
-  cluster_columns = TRUE)
+sampleScoreHeatmap(
+  dat,
+  dataName,
+  avgLoading,
+  cluster_rows = TRUE,
+  cluster_columns = TRUE,
+  show_row_names = TRUE,
+  show_column_names = TRUE,
+  row_names_gp = 0.7,
+  column_names_gp = 5,
+  ...
+)
 }
 \arguments{
 \item{dat}{a matrix with samples (row) and PrcompClusters (column)}

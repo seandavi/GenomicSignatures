@@ -7,7 +7,7 @@
 validate(dataset, avg.loadings, level = "max")
 }
 \arguments{
-\item{dataset}{A list of SummarizedExperiment (or ExpressionSet) objects.
+\item{dataset}{Single or a list of SummarizedExperiment (or ExpressionSet) object(s).
 Rownames are in 'symbol' format.}
 
 \item{avg.loadings}{output from \code{avgLoading} function - a data frame of avaerage

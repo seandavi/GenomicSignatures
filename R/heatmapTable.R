@@ -1,8 +1,8 @@
 #' Color the matrix in a heatmap-stype
 #'
 #' @import ComplexHeatmap
-#' @import circlize
-#' @import grid
+#' @import colorRamp2 from circlize
+#' @import gpar from grid
 #'
 #' @param dat a matrix subjected to add background colors in each slot correlated
 #' to its value - similar to heatmap
@@ -28,7 +28,7 @@ heatmapTable = function(dat, row_title, column_title, breaks, colors) {
 
   if (missing(column_title)) {
     column_title = character(0)
-    hmHeight = nrow(dat)
+    hmHeight = nrow(dat) + 1
   } else {
     column_title = column_title
     hmHeight = nrow(dat) + 2
@@ -36,7 +36,7 @@ heatmapTable = function(dat, row_title, column_title, breaks, colors) {
 
   if (missing(row_title)) {
     row_title = character(0)
-    hmWidth = ncol(dat)
+    hmWidth = ncol(dat) + 1
   } else {
     row_title = row_title
     hmWidth = ncol(dat) + 2

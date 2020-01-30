@@ -14,7 +14,8 @@
 #' @return A data frame of principle components (PCs). Rows are common genes of
 #' datasets and columns represent PCs (defined by \code{pc.num}) from each dataset.
 #'
-#' @export
+#' @keyword internal
+#'
 pcTable = function (setNames, pc.num = 20, commonGene = NULL) {
 
   # remove/check NA and Inf values
@@ -22,11 +23,6 @@ pcTable = function (setNames, pc.num = 20, commonGene = NULL) {
 
   for (set in setNames) {
     dat = get(set)
-
-    # exprs = exprs(dat) %>%
-    #   rmNaInf %>%
-    #   apply(., 1, function (x) {x - mean(x)}) %>% t
-
     exprs = exprs(dat)
     exprs = exprs[apply(exprs, 1, function(x){!any(is.na(x)|(x==Inf)|(x==-Inf))}),]
     exprs = apply(exprs, 1, function (x) {x - mean(x)}) %>% t

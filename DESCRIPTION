@@ -20,5 +20,5 @@ Description: Database of PCA analysis on public gene expression data is provided
 License: CC0
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 6.1.1
+RoxygenNote: 7.0.2
 VignetteBuilder: knitr

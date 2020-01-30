@@ -11,9 +11,15 @@
 \usage{
 trainingSets_10ovc
 }
+\value{
+
+}
 \description{
 A list of the dataset names from curatedOvarianData package, used as a training
 dataset to build a model. Eight datasets were processed by Affymetrix, and two
 datasets were processed by Agilent (GSE17260_eset, GSE32062.GPL6480_eset)
+}
+\references{
+
 }
 \keyword{datasets}
