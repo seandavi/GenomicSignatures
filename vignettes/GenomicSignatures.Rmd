@@ -1,0 +1,129 @@
+---
+title: "GenomicSignatures"
+author: "SehyunOh"
+date: "`r Sys.Date()`"
+output:
+  BiocStyle::html_document:
+    toc: true
+    toc_depth: 3
+vignette: >
+  %\VignetteIndexEntry{GenomicSupersignatures Overview}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE, comment = "#>", message = FALSE, warning = FALSE
+)
+```
+
+
+# List of the available signature databases
+Signature from recount2 datasets annotated with different gene sets.    
+
+1. bcs signatures (bloodCellMarkersIRISDMAP, canonicalPathways, svmMarkers)
+2. MSigDB_c2c6c7
+3. MSigDB_c6    
+
+In this vignette, we are using the first signature database, annotated with three
+gene sets (bloodCellMarkersIRISDMAP, canonicalPathways, svmMarkers).
+
+## PLIER model
+```{r}
+recount_PLIER_model = readRDS("/data2/Genomic_Super_Signature/PLIER/data/recount_PLIER_model.rds")   # 2.1GB
+```
+
+## PCA model
+```{r}
+recount_PCA_allZ = readRDS("/data2/Genomic_Super_Signature/PCA/data/recount2_allZ.rds")
+recount_PCA_avgloadings = readRDS("/data2/Genomic_Super_Signature/PCA/data/avgLoadingRecount2.rds")  
+recount_PCA_annotation = readRDS("/data2/Genomic_Super_Signature/PCA/data/topPathways_recount2PCAmodel.rds")   
+```
+
+
+
+# Load your dataset
+## Pre-processing
+Raw gene expression datasets (= count matrix) need to be pre-processed.
+
+1. Convert gene annotation to SYMBOL    
+2. Remove NAs and -Inf/Inf     
+3. Variatn stabilization (log2-transform)  
+   
+We are using TCGA-COAD RNAseq data from `curatedTCGAData` as examples, here. 
+Pre-processing step is described in the vignette, `05_Pathway_Preservation`.
+
+```{r}
+library(SummarizedExperiment)
+library(dplyr)
+
+load("data/TCGA_COAD_rseq.rda")
+TCGA_COAD_rseq = EnrichmentBrowser::idMap(TCGA_COAD_rseq, org = "hsa", from = "ENTREZID", to = "SYMBOL")
+count = assay(TCGA_COAD_rseq) %>% as.matrix %>% rmNaInf
+count = log2(count + 1)
+```
+
+
+
+# Dataset level analysis
+## Main characters of your dataset
+#### What are the strong signals from my dataset?
+```{r color_setup, echo=FALSE}
+colfunc = colorRampPalette(c("white", "red"))
+n = 20
+col = colfunc(n)[c(1,2,n)]
+```
+
+```{r}
+val = validate(count, recount_PCA_avgloadings)
+heatmapTable(val[, which(val > 0.4), drop = FALSE], 
+             row_title = "TCGA_COAD_RNAseq", column_title = "recount_PCA_model",
+             colors = col)
+```
+
+
+#### Which studies have a similar sample as mine?
+```{r}
+k = ncol(recount_PCA_avgloadings)
+PCs = pcInCluster(recount_PCA_allZ, k)
+```
+
+For example, if you want to check which studies contributed cluster 94 and 115,
+**--> make this as a new function**
+```{r}
+i = 94
+studies = rownames(PCs[which(PCs[,i] == 1),]) 
+studies = lapply(studies, function(x) {unlist(strsplit(x, "\\."))[1]})
+studies = unique(unlist(studies))
+studies
+```
+
+We can further confirm that these studies are actually related to our dataset.
+```{r}
+SRAdb::
+```
+
+
+
+# Sample level analysis
+#### What are the strong signals from my sample?
+```{r}
+score = calScore(count, recount_PCA_avgloadings)
+dim(score[[1]])
+```
+
+```{r}
+sampleScoreHeatmap(dat = count, dataName = "TCGA_COAD_RNAseq", avgLoading = recount_PCA_avgloadings)
+```
+
+
+
+
+
+Previous studies similar to your dataset and samples.
+
+```{r}
+
+```
+
