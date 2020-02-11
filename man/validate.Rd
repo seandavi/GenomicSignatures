@@ -4,13 +4,13 @@
 \alias{validate}
 \title{Validatin of a new dataset}
 \usage{
-validate(dataset, avg.loadings, level = "max")
+validate(dataset, avgLoading, level = "max")
 }
 \arguments{
 \item{dataset}{Single or a list of SummarizedExperiment (or ExpressionSet) object(s).
 Rownames are in 'symbol' format.}
 
-\item{avg.loadings}{output from \code{avgLoading} function - a data frame of avaerage
+\item{avgLoading}{output from \code{avgLoading} function - a data frame of avaerage
 loadings. Each column represents cluster and rows represent genes used for PCA.}
 
 \item{level}{Defibe how to ouput validation in two different forms, \code{c("max", "all")}.
@@ -23,7 +23,7 @@ the top 8 PCs of the dataset(s) and pre-calculated average loadings of training
 datasets. Each row represents a new dataset for test, and each column represents
 clusters from training datasets. If \code{level = "all"}, a list containing the matrices
 of the pearson correlation coefficient between all top 8 PCs of the dataset(s) and
-avg.loadings.
+avgLoading.
 }
 \description{
 Validatin of a new dataset

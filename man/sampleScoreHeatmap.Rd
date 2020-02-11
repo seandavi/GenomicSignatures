@@ -5,9 +5,9 @@
 \title{Plot heatmap of the sample scores}
 \usage{
 sampleScoreHeatmap(
-  dat,
+  score,
   dataName,
-  avgLoading,
+  modelName,
   cluster_rows = TRUE,
   cluster_columns = TRUE,
   show_row_names = TRUE,
@@ -18,11 +18,12 @@ sampleScoreHeatmap(
 )
 }
 \arguments{
-\item{dat}{a matrix with samples (row) and PrcompClusters (column)}
+\item{score}{a matrix with samples (row) and PrcompClusters (column). If it
+is a simple vector, it will be converted to a one-column matrix.}
 
 \item{dataName}{a character string containing the name of the dataset}
 
-\item{avgLoading}{a character string containing the average loading used for scoring}
+\item{modelName}{a character string containing the average loading used for scoring}
 
 \item{cluster_rows}{a logical value, that controls whether to make cluster on rows. Default is TRUE.}
 

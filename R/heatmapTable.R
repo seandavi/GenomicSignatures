@@ -1,8 +1,8 @@
 #' Color the matrix in a heatmap-stype
 #'
 #' @import ComplexHeatmap
-#' @import colorRamp2 from circlize
-#' @import gpar from grid
+#' @import circlize
+#' @import grid
 #'
 #' @param dat a matrix subjected to add background colors in each slot correlated
 #' to its value - similar to heatmap

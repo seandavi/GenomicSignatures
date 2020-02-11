@@ -15,7 +15,7 @@
 #' datasets and columns represent PCs (defined by \code{pc.num}) from each dataset.
 #'
 #' @keyword internal
-#'
+#' @export
 pcTable = function (setNames, pc.num = 20, commonGene = NULL) {
 
   # remove/check NA and Inf values

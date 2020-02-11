@@ -1,8 +1,8 @@
 #' Plot heatmap of the sample scores
 #'
 #' @import ComplexHeatmap
-#' @import circlize
-#' @import grid
+#' @importfrom circlize colorRamp2
+#' @importfrom grid gpar
 #'
 #' @param score a matrix with samples (row) and PrcompClusters (column). If it
 #' is a simple vector, it will be converted to a one-column matrix.

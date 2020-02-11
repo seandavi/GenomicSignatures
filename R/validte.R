@@ -55,7 +55,3 @@ validate = function(dataset, avgLoading, level = "max") {
         }
     }
 }
-
-
-
-

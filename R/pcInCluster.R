@@ -4,7 +4,7 @@
 #' (PCs) from different datasets (col). The number of column is `the number of PCs
 #' x the number of datasets`
 #' @param k the number of clusters for `kmeans` clustering if you provide raw data
-#' @param seed
+#' @param seed a random seed
 #'
 #' @return A data frame of Jaccards' Coefficient. Each column represents cluster
 #' and rows represent PCs from different datasets.

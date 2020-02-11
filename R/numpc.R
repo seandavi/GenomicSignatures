@@ -6,10 +6,9 @@
 #' @param data the same data as to be used for PLIER (z-score recommended) or alternatively the result of an svd calculation
 #' @param method Either "eblow" (fast) or "permutation" (slower, but less heuristic)
 #' @param B number of permutations
-#' @param seed seed for reproducibility
+#' @param seed a random seed for reproducibility
 #'
-#' @return
-#' @example
+#' @return an integer. The number of cluster for kmeans clustering calculated using elbow method.
 #'
 #' @note This function is adopted from `PLIER::num.pc()`.
 #'
