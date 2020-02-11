@@ -14,7 +14,7 @@
 #' Each column represents cluster and rows represent genes used for PCA.
 #'
 #' @export
-avgLoading = function(df, k, seed = 123) {
+buildAvgLoading = function(df, k, seed = 123) {
 
     # Kmeans clustering
     if (!is.null(seed)) {
