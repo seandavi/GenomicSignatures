@@ -19,14 +19,19 @@ findStudiesInCluster = function(PCAmodel, ind = NULL) {
   rownames(z) = names(PCAmodel$cluster)
 
   if (is.null(ind)) {
-    return(z)
-    stop
+      studies = list()
+      for (i in 1:ncol(z)) {
+          studies[[i]] = rownames(z[which(z[,i] == 1),])
+          studies[[i]] = lapply(studies[[i]], function(x) {unlist(strsplit(x, "\\."))[1]})
+          studies[[i]] = unique(unlist(studies[[i]]))
+          names(studies)[i] = colnames(z)[i]
+      }
   } else {
     for (i in ind) {
-      studies = rownames(z[which(z[,i] == 1),])
-      studies = lapply(studies, function(x) {unlist(strsplit(x, "\\."))[1]})
-      studies = unique(unlist(studies))
+        studies = rownames(z[which(z[,i] == 1),])
+        studies = lapply(studies, function(x) {unlist(strsplit(x, "\\."))[1]})
+        studies = unique(unlist(studies))
     }
-    return(studies)
   }
+  return(studies)
 }

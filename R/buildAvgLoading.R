@@ -8,13 +8,14 @@
 #' @param df A data frame. Each row represents principle components from different
 #' training datasets. Each column represents genes used for PCA analysis.
 #' @param k The number of clusters used for k-means clustering
+#' @param n The number of top principle components from each datasets used for model buildling
 #' @param seed a random seed
 #'
 #' @return A list of kmeans clustering results and a data frame of average loadings.
 #' Each column represents cluster and rows represent genes used for PCA.
 #'
 #' @export
-buildAvgLoading = function(df, k, seed = NULL) {
+buildAvgLoading = function(df, k, n, seed = NULL) {
 
     # Kmeans clustering
     if (!is.null(seed)) {
@@ -49,6 +50,8 @@ buildAvgLoading = function(df, k, seed = NULL) {
 
     # Save kmeans clustering outputs and avgloading
     res$avgLoading = avg.loadings
+    res$k = k
+    res$n = n
     return(res)
 }
 
