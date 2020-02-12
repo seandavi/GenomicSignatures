@@ -1,5 +1,5 @@
 ---
-title: "GenomicSignatures"
+title: "How to use GenomicSignatures"
 author: "SehyunOh"
 date: "`r Sys.Date()`"
 output:
@@ -18,33 +18,52 @@ knitr::opts_chunk$set(
 )
 ```
 
+# Load packages
+```{r echo=FALSE}
+suppressPackageStartupMessages({
+    library(SummarizedExperiment)
+    library(dplyr)
+    library(GenomicSuperSignature)
+})
+```
+
+```{r}
+library(SummarizedExperiment)
+library(dplyr)
+library(GenomicSuperSignature)
+```
+
 
 # List of the available signature databases
-Signature from recount2 datasets annotated with different gene sets.    
+We buit our signature models using recount2 datasets and there are three different
+versions available with different annotations.    
 
-1. bcs signatures (bloodCellMarkersIRISDMAP, canonicalPathways, svmMarkers)
+1. PLIER pathways (bloodCellMarkersIRISDMAP, canonicalPathways, svmMarkers)
 2. MSigDB_c2c6c7
 3. MSigDB_c6    
 
-In this vignette, we are using the first signature database, annotated with three
-gene sets (bloodCellMarkersIRISDMAP, canonicalPathways, svmMarkers).
+The PLIER pathways are using prior knowledge/ gene sets provided in PLIER package.
+The MSigDB versions are annotated with different combination of MSigDB gene sets:
+c2 includes 'Canonical Pathways' and 'Chemical and genetic perturbations', c6 is
+'Oncogenic signatures', and c7 is 'Immunologic signatures'.
 
-## PLIER model
-```{r}
+In this vignette, we are using the signature model annotated with the PLIER pathways,
+from three gene sets (bloodCellMarkersIRISDMAP, canonicalPathways, svmMarkers).
+
+```{r load_models}
 recount_PLIER_model = readRDS("/data2/Genomic_Super_Signature/PLIER/data/recount_PLIER_model.rds")   # 2.1GB
+recount_PCA_model = readRDS("/data2/Genomic_Super_Signature/PCA/data/recount_PCA_model.rds")
 ```
 
-## PCA model
-```{r}
-recount_PCA_allZ = readRDS("/data2/Genomic_Super_Signature/PCA/data/recount2_allZ.rds")
-recount_PCA_avgloadings = readRDS("/data2/Genomic_Super_Signature/PCA/data/avgLoadingRecount2.rds")  
-recount_PCA_annotation = readRDS("/data2/Genomic_Super_Signature/PCA/data/topPathways_recount2PCAmodel.rds")   
+```{r eval=FALSE, echo=FALSE}
+# recount_PCA_allZ = readRDS("/data2/Genomic_Super_Signature/PCA/data/recount2_allZ.rds")
+# recount_PCA_avgloadings = readRDS("/data2/Genomic_Super_Signature/PCA/data/avgLoadingRecount2.rds")  
+# recount_PCA_annotation = readRDS("/data2/Genomic_Super_Signature/PCA/data/topPathways_recount2PCAmodel.rds")   
 ```
 
 
 
-# Load your dataset
-## Pre-processing
+# Prepare your dataset
 Raw gene expression datasets (= count matrix) need to be pre-processed.
 
 1. Convert gene annotation to SYMBOL    
@@ -54,11 +73,7 @@ Raw gene expression datasets (= count matrix) need to be pre-processed.
 We are using TCGA-COAD RNAseq data from `curatedTCGAData` as examples, here. 
 Pre-processing step is described in the vignette, `05_Pathway_Preservation`.
 
-```{r}
-library(SummarizedExperiment)
-library(dplyr)
-library(GenomicSuperSignature)
-
+```{r load_validation_data}
 load("/data2/GenomicSuperSignature/data/TCGA_COAD_rseq.rda")
 TCGA_COAD_rseq = EnrichmentBrowser::idMap(TCGA_COAD_rseq, org = "hsa", from = "ENTREZID", to = "SYMBOL")
 count = assay(TCGA_COAD_rseq) %>% as.matrix %>% rmNaInf
@@ -75,8 +90,8 @@ n = 20
 col = colfunc(n)[c(1,2,n)]
 ```
 
-```{r}
-val = validate(count, recount_PCA_avgloadings)
+```{r validate}
+val = validate(count, recount_PCA_model$avgLoading)
 heatmapTable(val[, which(val > 0.4), drop = FALSE], 
              row_title = "TCGA_COAD_RNAseq", column_title = "recount_PCA_model",
              colors = col)
@@ -84,24 +99,20 @@ heatmapTable(val[, which(val > 0.4), drop = FALSE],
 
 
 ## Which studies have a similar sample as mine?
-```{r}
-k = ncol(recount_PCA_avgloadings)
-PCs = pcInCluster(recount_PCA_allZ, k)
+For example, if you want to check which studies contributed cluster 53,
+```{r related_studies}
+findStudiesInCluster(recount_PCA_model, 53)
 ```
 
-For example, if you want to check which studies contributed cluster 94 and 115,
-**(make this as a new function!!)**
-```{r}
-i = 94
-studies = rownames(PCs[which(PCs[,i] == 1),]) 
-studies = lapply(studies, function(x) {unlist(strsplit(x, "\\."))[1]})
-studies = unique(unlist(studies))
-studies
-```
-
-We can further confirm that these studies are actually related to our dataset.
-```{r}
+```{r eval=FALSE, echo=FALSE}
+# We can further confirm that these studies are actually related to our dataset.
 library(SRAdb)
+```
+
+
+## Which gene sets are related to the signal?
+```{r}
+
 ```
 
 
@@ -110,22 +121,22 @@ library(SRAdb)
 ## What are the strong signals from my sample?
 
 Each sample is assigned with the score from all PCclusters (118 in this example).
-```{r}
-score = calScore(count, recount_PCA_avgloadings)
+```{r assign_sample_score}
+score = calScore(count, recount_PCA_model$avgLoading)
 dim(score[[1]])
 score[[1]][1:4, 1:4]
 ```
 
 Score result can be displayed in heatmap. 
-```{r}
-sampleScoreHeatmap(dat = score[[1]], dataName = "TCGA_COAD_RNAseq", avgLoading = "recount_PCA_avgloadings")
+```{r sampleScoreHeatmap}
+sampleScoreHeatmap(score = score[[1]], dataName = "TCGA_COAD_RNAseq", modelName = "recount_PCAmodel")
 ```
 
 Check only the first 4 samples in the test dataset.
 ```{r}
-sampleScoreHeatmap(dat = score[[1]][1:4,], 
+sampleScoreHeatmap(score = score[[1]][1:4,], 
                    dataName = "TCGA_COAD_RNAseq", 
-                   avgLoading = "recount_PCA_avgloadings",
-                   row_names_gp = 9)
+                   modelName = "recount_PCAmodel",
+                   row_names_gp = 7)
 ```
 
