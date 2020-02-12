@@ -5,7 +5,7 @@ date: "`r Sys.Date()`"
 output:
   BiocStyle::html_document:
     toc: true
-    toc_depth: 3
+    toc_depth: 2
 vignette: >
   %\VignetteIndexEntry{GenomicSupersignatures Overview}
   %\VignetteEngine{knitr::rmarkdown}
@@ -24,7 +24,11 @@ suppressPackageStartupMessages({
     library(SummarizedExperiment)
     library(dplyr)
     library(GenomicSuperSignature)
+    library(circlize)
 })
+
+source('/data2/Genomic_Super_Signature/R/6_EDA_Zmatrices_functions.R')    # functions under construction
+wd = "/data2/Genomic_Super_Signature"
 ```
 
 ```{r}
@@ -47,12 +51,15 @@ The MSigDB versions are annotated with different combination of MSigDB gene sets
 c2 includes 'Canonical Pathways' and 'Chemical and genetic perturbations', c6 is
 'Oncogenic signatures', and c7 is 'Immunologic signatures'.
 
+<br/>
+
 In this vignette, we are using the signature model annotated with the PLIER pathways,
 from three gene sets (bloodCellMarkersIRISDMAP, canonicalPathways, svmMarkers).
 
 ```{r load_models}
-recount_PLIER_model = readRDS("/data2/Genomic_Super_Signature/PLIER/data/recount_PLIER_model.rds")   # 2.1GB
-recount_PCA_model = readRDS("/data2/Genomic_Super_Signature/PCA/data/recount_PCA_model.rds")
+# Size: PLIERmodel ~ 2.1GB, PCAmodel ~ 26.6MB
+recount_PLIER_model = readRDS(file.path(wd, "PLIER/data/recount_PLIER_model.rds"))
+recount_PCA_model = readRDS(file.path(wd, "PCA/data/recount_PCA_model.rds"))
 ```
 
 ```{r eval=FALSE, echo=FALSE}
@@ -70,12 +77,15 @@ Raw gene expression datasets (= count matrix) need to be pre-processed.
 2. Remove NAs and -Inf/Inf     
 3. Variatn stabilization (log2-transform)  
    
-We are using TCGA-COAD RNAseq data from `curatedTCGAData` as examples, here. 
+We are using TCGA-COAD RNAseq data from `curatedTCGAData` as an example here. 
 Pre-processing step is described in the vignette, `05_Pathway_Preservation`.
 
 ```{r load_validation_data}
 load("/data2/GenomicSuperSignature/data/TCGA_COAD_rseq.rda")
-TCGA_COAD_rseq = EnrichmentBrowser::idMap(TCGA_COAD_rseq, org = "hsa", from = "ENTREZID", to = "SYMBOL")
+TCGA_COAD_rseq = EnrichmentBrowser::idMap(TCGA_COAD_rseq, 
+                                          org = "hsa", 
+                                          from = "ENTREZID", 
+                                          to = "SYMBOL")
 count = assay(TCGA_COAD_rseq) %>% as.matrix %>% rmNaInf
 count = log2(count + 1)
 ```
@@ -90,16 +100,29 @@ n = 20
 col = colfunc(n)[c(1,2,n)]
 ```
 
+Output from `validate` is the maximum Pearson correlation coefficient between 
+each signature and the top 8 PCs of the test dataset. 
 ```{r validate}
 val = validate(count, recount_PCA_model$avgLoading)
+val[,1:4]
+```
+
+<br/>
+You can plot the heatmap of the validation result using `heatmapTable`. Here, we
+selected the signatures with > 0.4 correlation coefficient. 
+
+```{r validate_heatmap}
 heatmapTable(val[, which(val > 0.4), drop = FALSE], 
-             row_title = "TCGA_COAD_RNAseq", column_title = "recount_PCA_model",
+             row_title = "COAD", 
+             column_title = "Validation using recount_PCAmodel",
              colors = col)
 ```
 
 
-## Which studies have a similar sample as mine?
-For example, if you want to check which studies contributed cluster 53,
+## Which studies are similar to your dataset?
+For example, if you want to check which studies contributed cluster 53, you can 
+use `findStudiesInCluster` function. 
+
 ```{r related_studies}
 findStudiesInCluster(recount_PCA_model, 53)
 ```
@@ -110,33 +133,124 @@ library(SRAdb)
 ```
 
 
-## Which gene sets are related to the signal?
-```{r}
+## Which gene sets/ pathways are related to the signal?
+Not all signatures are annotated with gene sets/pathways - it varies depending on
+signature database you selected. You can check the list of annotated signatures.
 
+```{r}
+names(recount_PCA_model$annotation)
 ```
 
+<br/>
+The gene sets used in the GSEA is,
+```{r}
+recount_PCA_model$geneSets
+```
+
+<br/>
+You can subset the top and bottum `n` pathways enriched in GSEA. 
+```{r}
+n = 10
+pathwaySubsets = subsetAnnotatedPathways(recount_PCA_model$annotation, n)
+pathwaySubsets[,1:2]
+```
 
 
 # Sample level analysis
 ## What are the strong signals from my sample?
 
-Each sample is assigned with the score from all PCclusters (118 in this example).
+You can assigne scores to an individual samples using `calScore`. In the following example, each 
+sample (total 524 in this example) is assigned with the scores from all signatures (118 in this example).
 ```{r assign_sample_score}
 score = calScore(count, recount_PCA_model$avgLoading)
 dim(score[[1]])
-score[[1]][1:4, 1:4]
+score[[1]][1:4, 1:2]
 ```
 
-Score result can be displayed in heatmap. 
+<br/>
+
+Score result can be displayed in a heatmap format using `sampleScoreHeatmap`. 
 ```{r sampleScoreHeatmap}
-sampleScoreHeatmap(score = score[[1]], dataName = "TCGA_COAD_RNAseq", modelName = "recount_PCAmodel")
+sampleScoreHeatmap(score = score[[1]], 
+                   dataName = "TCGA_COAD_RNAseq", 
+                   modelName = "recount_PCAmodel")
 ```
 
-Check only the first 4 samples in the test dataset.
+<br/>
+
+You can plot a specific sample.
 ```{r}
-sampleScoreHeatmap(score = score[[1]][1:4,], 
+sampleScoreHeatmap(score = score[[1]][52:54,], 
                    dataName = "TCGA_COAD_RNAseq", 
                    modelName = "recount_PCAmodel",
                    row_names_gp = 7)
+```
+
+## What are the similar studies and related pathways to the sample?
+You can find the simlar studies and the related pathways in a same way as in 'Dataset
+level analysis' above (Section 4.2 and 4.3). 
+
+<br/>
+
+### Example
+There are three tumor (`01`) samples from 'TCGA-A6-6650' patient prepared in two 
+different vials (`A` and `B`).
+
+```{r}
+sampleID = "TCGA-A6-6650"
+ind = grep(sampleID, colData(TCGA_COAD_rseq)$sample)
+colData(TCGA_COAD_rseq)[ind,]
+```
+
+<br/>
+
+It seems like the different vial (A and B) results in a batch effect.
+```{r}
+sampleScoreHeatmap(score = score[[1]][ind,], 
+                   dataName = "TCGA_COAD_RNAseq", 
+                   modelName = "recount_PCAmodel",
+                   row_names_gp = 7)
+```
+
+<br/>
+
+Check the similar studies and related pathways of 'TCGA-A6-6650-01B-02R-A277-07'.
+```{r}
+ind = which(colData(TCGA_COAD_rseq)$sample == "TCGA-A6-6650-01B-02R-A277-07")
+which.max(score[[1]][ind,])
+which.min(score[[1]][ind,])
+```
+
+<br/>
+
+Signature 53 (`Cl118_53`) doesn't have enriched gene sets, so we are checking only 
+the similar studies. 
+```{r}
+findStudiesInCluster(recount_PCA_model, 53)
+```
+
+```{r}
+findStudiesInCluster(recount_PCA_model, 38)
+pathwaySubsets["Cl118_09 (45/33)"]
+```
+
+
+<br/>
+
+Check the similar studies and related pathways of 'TCGA-A6-6650-01A-11R-1774-07'.
+```{r}
+ind = which(colData(TCGA_COAD_rseq)$sample == "TCGA-A6-6650-01A-11R-1774-07")
+which.max(score[[1]][ind,])
+which.min(score[[1]][ind,])
+```
+
+```{r}
+findStudiesInCluster(recount_PCA_model, 38)
+pathwaySubsets["Cl118_38 (30/26)"]
+```
+
+```{r}
+findStudiesInCluster(recount_PCA_model, 9)
+pathwaySubsets["Cl118_09 (45/33)"]
 ```
 
